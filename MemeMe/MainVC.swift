@@ -71,19 +71,13 @@ class MainVC: UIViewController {
     
     @IBAction func pickImageTapped(_ sender: UIBarButtonItem) {
         
-        let pickerVC = UIImagePickerController()
-        pickerVC.delegate = self
-        pickerVC.sourceType = .photoLibrary
-        present(pickerVC, animated: true, completion: nil)
-        pickerVC.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Impact", size: 17) as Any]
+        presentPickerViewControllerWithSourceType(.photoLibrary)
+        
     }
 
     @IBAction func cameraButtonTapped(_ sender: UIBarButtonItem) {
        
-        let pickerVC = UIImagePickerController()
-        pickerVC.delegate = self
-        pickerVC.sourceType = .camera
-        present(pickerVC, animated: true, completion: nil)
+        presentPickerViewControllerWithSourceType(.camera)
     }
     
     @IBAction func shareButtonTapped(_ sender: UIBarButtonItem) {
@@ -273,6 +267,10 @@ class MainVC: UIViewController {
 
             // TODO: How can we share this in more places?!
             let meme = Meme.init(topText: topText, bottomText: bottomText, originalImage: realOriginalImage, memedImage: realMemeImage)
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.memes.append(meme)
+            
         }
         else {
 
@@ -425,6 +423,15 @@ extension MainVC: UIImagePickerControllerDelegate {
         
         dismiss(animated: true, completion: nil)
         
+    }
+    
+    func presentPickerViewControllerWithSourceType(_ sourceType: UIImagePickerControllerSourceType) {
+        
+        let pickerVC = UIImagePickerController()
+        pickerVC.delegate = self
+        pickerVC.sourceType = sourceType
+        present(pickerVC, animated: true, completion: nil)
+        pickerVC.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Impact", size: 17) as Any]
     }
     
     
