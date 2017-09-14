@@ -29,3 +29,6 @@ var kDefaultFont = UIFont(name: kdefaultFontName, size: fontSize) {
 
 let kPreferredFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 17)
 
+
+let kDetailVCstoryboardID = "memeDetailViewController"
+let kEditorVCStoryboardID = "mainViewController"

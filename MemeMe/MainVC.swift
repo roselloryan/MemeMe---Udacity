@@ -7,7 +7,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var bottomTextField: UITextField!
     
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var containerView: MemeContainerView!
     @IBOutlet weak var selectPhotoLabel: UILabel!
     
     @IBOutlet weak var albumButton: UIBarButtonItem!
@@ -15,6 +15,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var shareButtton: UIBarButtonItem!
     @IBOutlet weak var fontButton: UIBarButtonItem!
     
+
     @IBOutlet weak var topTextFieldConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTextFieldContraint: NSLayoutConstraint!
     
@@ -23,7 +24,7 @@ class MainVC: UIViewController {
     var tapGestureRecognizer: UITapGestureRecognizer!
     
     var selectedImage: UIImage?
-    
+    var meme: Meme?
     
 
     // MARK: - Life Cycle Method
@@ -48,8 +49,37 @@ class MainVC: UIViewController {
         shareButtton.isEnabled = !isImageNil
         topTextField.isHidden = isImageNil
         bottomTextField.isHidden = isImageNil
-    
+
+        tabBarController?.tabBar.isHidden = true
+        
+        // It took days to find this line of code. Stops messing up the CutsomScrollView centering.
+        self.automaticallyAdjustsScrollViewInsets = false
+        
+        
+        
+        
+        if let realMeme = meme {
+            print("we got an meme!")
+            
+            containerView.addCustomScrollViewWithImage(realMeme.memedImage)
+            
+            let topText = NSMutableAttributedString.init(string: realMeme.topText!)
+            topText.addAttributes(memeFontAttributesDict(), range: NSRange.init(location: 0, length: topText.length))
+            topTextField.attributedText = topText
+            
+            let bottomText = NSMutableAttributedString.init(string: realMeme.topText!)
+            bottomText.addAttributes(memeFontAttributesDict(), range: NSRange.init(location: 0, length: bottomText.length))
+            bottomTextField.attributedText = bottomText
+            
+            
+            // Adjust UI for loaded meme
+            selectPhotoLabel.isHidden = true
+            shareButtton.isEnabled = true
+            topTextField.isHidden = false
+            bottomTextField.isHidden = false
+        }
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -135,6 +165,18 @@ class MainVC: UIViewController {
         displayFontTableView()
     }
     
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        
+        if meme == nil {
+            // Leave from creating new meme
+            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[0]
+        }
+        else {
+            // We came from detailVC to edit meme. Leave accordingly
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func addTapGestureRecognizerToContainerView() {
         
         let tapRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tapRecognized(_:)))
@@ -205,8 +247,8 @@ class MainVC: UIViewController {
     
     func rotated() {
         
-        print("height = \(view.frame.size.height)")
-        print("width = \(view.frame.size.width)")
+        print("container height = \(containerView.frame.size.height)")
+        print("container width = \(containerView.frame.size.width)")
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             if view.frame.size.height > view.frame.size.width {
@@ -237,14 +279,14 @@ class MainVC: UIViewController {
         let placeholderAttributesDict = placeholderFontAttributesDict()
         
 //      Change font for attributed text already in textViews
-        if isPlaceholderAttributedString(topTextField.attributedText!) {
+        if topTextField.attributedText!.length > 0 && isPlaceholderAttributedString(topTextField.attributedText!) {
             addTopPlaceholderTextWithAttributes(placeholderAttributesDict)
         }
         else {
             topTextField.attributedText = NSAttributedString(string: topTextField.attributedText!.string, attributes:  memeFontAttributesDict())
         }
         
-        if isPlaceholderAttributedString(bottomTextField.attributedText!) {
+        if bottomTextField.attributedText!.length > 0 && isPlaceholderAttributedString(bottomTextField.attributedText!) {
             addBottomPlaceholderTextWithAttributes(placeholderAttributesDict)
         }
         else {
@@ -269,6 +311,8 @@ class MainVC: UIViewController {
             let meme = Meme.init(topText: topText, bottomText: bottomText, originalImage: realOriginalImage, memedImage: realMemeImage)
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            //TODO: Uncomment below to add meme
             appDelegate.memes.append(meme)
             
         }
@@ -390,11 +434,7 @@ extension MainVC: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        for subview in containerView.subviews {
-            if subview.tag == 1 {
-                subview.removeFromSuperview()
-            }
-        }
+        containerView.removeCustomScrollView()
         
         if let editedImage = info[UIImagePickerControllerEditedImage] {
             
@@ -407,22 +447,14 @@ extension MainVC: UIImagePickerControllerDelegate {
         
         
         if let realImage = selectedImage {
-            print("image size: \(realImage.size)")
             
-            let scrollView = CustomScrollView.init(frame: CGRect(x: 0.0, y: 0.0, width: containerView.bounds.size.width, height: containerView.bounds.size.height))
-            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            scrollView.backgroundColor = UIColor.black
-            scrollView.tag = 1
-            
-            containerView.addSubview(scrollView)
-            containerView.sendSubview(toBack: scrollView)
-            scrollView.displayImage(realImage)
+            containerView.addCustomScrollViewWithImage(realImage)
             
             addPlaceholderAttributedTextToTextViews()
         }
         
-        dismiss(animated: true, completion: nil)
         
+        dismiss(animated: true, completion: nil)
     }
     
     func presentPickerViewControllerWithSourceType(_ sourceType: UIImagePickerControllerSourceType) {
@@ -430,7 +462,9 @@ extension MainVC: UIImagePickerControllerDelegate {
         let pickerVC = UIImagePickerController()
         pickerVC.delegate = self
         pickerVC.sourceType = sourceType
-        present(pickerVC, animated: true, completion: nil)
+        
+        navigationController?.present(pickerVC, animated: true)
+        
         pickerVC.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Impact", size: 17) as Any]
     }
     

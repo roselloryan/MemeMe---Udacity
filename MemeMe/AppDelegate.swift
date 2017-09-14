@@ -6,13 +6,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var memes = [Meme]()
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         UILabel.appearance().defaultFontName = kdefaultFontName
-
+        
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.init(name: kdefaultFontName, size: 17)!], for: UIControlState.normal)
+        
+        
+        // Create meme data
+        for i in 1...35 {
+            if let newImage = UIImage(named: "\(i)") {
+                
+                let meme = Meme.init(topText: "\(i)", bottomText: "\(i)", originalImage: newImage, memedImage: newImage)
+                memes.append(meme)
+            }
+        }
         
         
         return true

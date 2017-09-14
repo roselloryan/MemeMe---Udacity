@@ -21,6 +21,7 @@ class CustomScrollView: UIScrollView, UIScrollViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.customInit()
+        
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -102,6 +103,8 @@ class CustomScrollView: UIScrollView, UIScrollViewDelegate {
     
     func displayImage(_ image: UIImage) {
         
+        print("customView.frame = \(self.frame)")
+        
         if self._imageView != nil {
             self._imageView?.removeFromSuperview()
             self._imageView = nil
@@ -114,12 +117,17 @@ class CustomScrollView: UIScrollView, UIScrollViewDelegate {
         self.addSubview(self._imageView!)
         
         self.configureForImageSize(image.size)
+        
+        
+        
     }
     
     
     func configureForImageSize(_ imageSize: CGSize) {
         
         _imageSize = imageSize
+        print("image size: \(imageSize)")
+
         self.contentSize = imageSize
         self.setMaxMinZoomScalesForCurrentBounds()
         self.zoomScale = self.minimumZoomScale
