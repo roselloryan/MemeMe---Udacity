@@ -9,22 +9,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MemeMe/MainVC.swift"
-            timestampString = "531081609.307562"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
-            landmarkName = "MainVC"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "MemeMe/CustomScrollView.swift"
             timestampString = "530479040.413754"
             startingColumnNumber = "9223372036854775807"
@@ -57,60 +41,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MemeMe/Constants.swift"
-            timestampString = "530754262.394167"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MemeMe.kDefaultFont.unsafeMutableAddressor : Swift.Optional&lt;__ObjC.UIFont&gt;"
-                  moduleName = "MemeMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/roselloryan/Documents/development/Udacity%20-%20iOS/MemeMe/MemeMe/Constants.swift"
-                  timestampString = "527191964.926426"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "4">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "globalinit_33_662F855DC316D63E95BFFB5A0E46D60D_func4"
-                  moduleName = "MemeMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/roselloryan/Documents/development/Udacity%20-%20iOS/MemeMe/MemeMe/Constants.swift"
-                  timestampString = "527191964.928561"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "MemeMe/MainVC.swift"
-            timestampString = "531081609.310113"
+            timestampString = "531082899.756916"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "416"
+            endingLineNumber = "416"
             landmarkName = "loadMemeForEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -132,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MemeMe/MainVC.swift"
-            timestampString = "531081609.311426"
+            timestampString = "531082899.757283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "418"
+            endingLineNumber = "418"
             landmarkName = "loadMemeForEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -148,12 +84,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MemeMe/MainVC.swift"
-            timestampString = "531081609.312287"
+            timestampString = "531082899.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
-            landmarkName = "textFieldShouldBeginEditing(_:)"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
+            landmarkName = "textFieldDidBeginEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

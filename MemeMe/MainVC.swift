@@ -99,16 +99,17 @@ class MainVC: UIViewController {
     
     @IBAction func shareButtonTapped(_ sender: UIBarButtonItem) {
         
+        func presentErrorAlert() {
+            let alertVC = UIAlertController.init(title: "Something went wrong.", message: "Please try again.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default)
+            alertVC.addAction(okAction)
+            present(alertVC, animated: true, completion: nil)
+        }
+        
         if let memeImage = captureMemeImage() {
             let activityVC = UIActivityViewController.init(activityItems: [memeImage], applicationActivities: nil)
             
             activityVC.completionWithItemsHandler = { [unowned self] (activityType, completed, returnedItems, activityError) in
-                
-                print("We are in the completionWithItemsHandler!!!")
-                print("activityType: \(String(describing: activityType))")
-                print("completed: \(completed)")
-                print("returnedItems: \(String(describing: returnedItems))")
-                print("activityError: \(String(describing: activityError))")
                 
                 if completed {
                     
@@ -116,14 +117,19 @@ class MainVC: UIViewController {
                     
                 }
                 else if let returnedItems = returnedItems {
+                    // TODO: How to handle the details of these errors?
                     print("returnedItems: \(String(describing: returnedItems))")
+                    presentErrorAlert()
                 }
                 else if let error = activityError {
+                    // TODO: How to handle the details of these errors?
                     print("non nil errors: \(String(describing: error))")
+                    presentErrorAlert()
                 }
             }
             
             if UIDevice.current.userInterfaceIdiom == .pad {
+                
                 activityVC.modalPresentationStyle = UIModalPresentationStyle.popover
                 present(activityVC, animated: true)
                 
@@ -136,12 +142,7 @@ class MainVC: UIViewController {
             }
         }
         else {
-            
-            let alertVC = UIAlertController.init(title: "Something went wrong.", message: "Please try again.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default)
-            alertVC.addAction(okAction)
-            present(alertVC, animated: true, completion: nil)
-            print("Something when wrong in share button")
+            presentErrorAlert()
         }
     }
     
@@ -267,9 +268,6 @@ class MainVC: UIViewController {
     
     func rotated() {
         
-        print("container height = \(containerView.frame.size.height)")
-        print("container width = \(containerView.frame.size.width)")
-        
         if UIDevice.current.userInterfaceIdiom == .phone {
             if view.frame.size.height > view.frame.size.width {
                 topTextFieldConstraint.constant = 56
@@ -334,7 +332,6 @@ class MainVC: UIViewController {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if sender == self.doneButton {
-                print("From the done ")
                 let memeIndex = appDelegate.memes.index(of: meme!) ?? appDelegate.memes.count
                 appDelegate.memes[memeIndex] = newMeme
             }
@@ -342,19 +339,7 @@ class MainVC: UIViewController {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.memes.append(newMeme)
             }
-            
-//
-//            if meme == nil {
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                appDelegate.memes.append(newMeme)
-//            }
-//            else {
-//                // Replace if editing meme
-//                let memeIndex = appDelegate.memes.index(of: meme!) ?? appDelegate.memes.count
-//                appDelegate.memes[memeIndex] = newMeme
-//            }
-//
-            
+
             
             // TODO: Show success alert for save
             
@@ -395,7 +380,6 @@ class MainVC: UIViewController {
             
             let alertController = UIAlertController(title: "Error: capture fail", message: "There was a problem saving your meme. Please try again.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: { [unowned self] (alert) in
-                print("Alert Ok button tapped.")
                 self.dismiss(animated: true)
             })
             alertController.addAction(okAction)
