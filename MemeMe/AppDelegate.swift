@@ -9,20 +9,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        UILabel.appearance().defaultFontName = kdefaultFontName
+//        UILabel.appearance().defaultFontName = kdefaultFontName
+//        UILabel.appearance(whenContainedInInstancesOf: [PickerVC.self]).defaultFontName = kdefaultFontName
         
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.init(name: kdefaultFontName, size: 17)!], for: UIControlState.normal)
         
         
-        // Create meme data
-        for i in 1...35 {
-            if let newImage = UIImage(named: "\(i)") {
-                
-                let meme = Meme.init(topText: "\(i)", bottomText: "\(i)", originalImage: newImage, memedImage: newImage)
-                memes.append(meme)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let rootTabBarController = window?.rootViewController as? UITabBarController {
+                if let realTabBarItems = rootTabBarController.tabBar.items {
+                    for item in realTabBarItems {
+                        item.imageInsets = UIEdgeInsets.zero
+                    }
+                }
             }
         }
         
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.init(name: kdefaultFontName, size: 17)!], for: UIControlState.normal)
+        
+        //creatMemeData()
         
         return true
     }
@@ -50,5 +54,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    func createMemeData() {
+       for i in 1...36 {
+           if let newImage = UIImage(named: "\(i)") {
+
+            let meme = Meme.init(topText: "\(i)", bottomText: "\(i)", originalImage: newImage, memedImage: newImage, fontName: kdefaultFontName, imageOffset: CGPoint.zero, zoomScale: 1.0)
+               memes.append(meme)
+           }
+       }
+    }
+    
 }
 

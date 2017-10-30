@@ -10,10 +10,10 @@ struct Placeholder {
 var fontSize: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 80 : 40
 
 var kdefaultFontName: String = "Impact" {
-    
+
     didSet {
         print("default font: \(String(describing: kDefaultFont))")
-        
+
         kDefaultFont = UIFont(name: kdefaultFontName, size: fontSize)!
     }
 }
@@ -28,6 +28,8 @@ var kDefaultFont = UIFont(name: kdefaultFontName, size: fontSize) {
 
 
 let kPreferredFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 17)
+
+let kImpactFontName = "Impact"
 
 
 let kDetailVCstoryboardID = "memeDetailViewController"

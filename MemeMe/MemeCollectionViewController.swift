@@ -15,7 +15,8 @@ class MemeCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tabBarController?.delegate = self
         
         let spacing: CGFloat = flowLayout.sectionInset.left
         flowLayout.minimumInteritemSpacing = spacing
@@ -23,6 +24,11 @@ class MemeCollectionViewController: UICollectionViewController {
         let dimension = self.view.frame.size.width / itemsPerRow - (2 * spacing)
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
         
+        
+        // Nav bar title attributes
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: kImpactFontName, size: UIDevice.current.userInterfaceIdiom == .pad ? 30 : 20)!]
+        
+    
     }
     
     
@@ -89,4 +95,20 @@ class MemeCollectionViewController: UICollectionViewController {
     
     }
 
+}
+
+extension MemeCollectionViewController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    
+        let collectionNav = tabBarController.viewControllers?[0] as! UINavigationController
+        let tableNav = tabBarController.viewControllers?[1] as! UINavigationController
+        
+        collectionNav.popToRootViewController(animated: false)
+        tableNav.popToRootViewController(animated: false)
+        
+        tabBarController.animateToTab(toIndex: (tabBarController.viewControllers?.index(of: viewController))!)
+        
+        return true
+    }
 }

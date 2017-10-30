@@ -4,9 +4,19 @@ class MemeContainerView: UIView {
 
     
     var customScrollView: CustomScrollView!
-//    func memeImage() -> UIImage {
-//        
-//    }
+
+    func memeImage() -> UIImage? {
+        
+        UIGraphicsBeginImageContext(self.frame.size)
+        
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        
+        let memeImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+        
+        return memeImage
+    }
     
     func addCustomScrollViewWithImage(_ image: UIImage) {
         

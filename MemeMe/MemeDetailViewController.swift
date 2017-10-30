@@ -25,12 +25,11 @@ class MemeDetailViewController: UIViewController {
     func editBarButtonTapped(_ sender: UIBarButtonItem) {
         print("YAY!")
         
-        let editVC = storyboard?.instantiateViewController(withIdentifier: kEditorVCStoryboardID) as! MainVC
-    
-        editVC.meme =  meme
+        ((tabBarController?.viewControllers?.last as! UINavigationController).viewControllers.first! as! MainVC).meme = meme
+        ((tabBarController?.viewControllers?.last as! UINavigationController).viewControllers.first! as! MainVC).selectedImage = meme.originalImage
         
-        navigationController?.pushViewController(editVC, animated: true)
+        tabBarController?.animateToTab(toIndex: tabBarController!.viewControllers!.count - 1)
+        tabBarController!.selectedIndex = tabBarController!.viewControllers!.count - 1
     }
-    
     
 }

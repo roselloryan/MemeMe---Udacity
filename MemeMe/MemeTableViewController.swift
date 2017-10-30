@@ -11,12 +11,21 @@ class MemeTableViewController: UITableViewController {
         super.viewDidLoad()
 
         memes = (UIApplication.shared.delegate as! AppDelegate).memes
+        
+        // Nav bar title attributes
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: kImpactFontName, size: UIDevice.current.userInterfaceIdiom == .pad ? 30 : 20)!]
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
+        
+        if (UIApplication.shared.delegate as! AppDelegate).memes.count > memes.count {
+         
+            memes = (UIApplication.shared.delegate as! AppDelegate).memes
+            tableView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

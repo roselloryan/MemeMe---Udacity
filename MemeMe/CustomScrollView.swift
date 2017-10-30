@@ -2,13 +2,7 @@ import UIKit
 
 class CustomScrollView: UIScrollView, UIScrollViewDelegate {
     
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
+
     fileprivate var _imageView: UIImageView?
     
     fileprivate var _imageSize: CGSize!
@@ -153,17 +147,22 @@ class CustomScrollView: UIScrollView, UIScrollViewDelegate {
         var minScale: CGFloat = min(xScale, yScale)
 
         // on high res screens we have double the pixel density, so we will be seeing every pixel if we limit the max zoom scale to 0.5
-        let maxScale: CGFloat = 1.0 / UIScreen.main.scale
+
+        //        let maxScale: CGFloat = 1.0 / UIScreen.main.scale
+        var maxScale: CGFloat = 5.0
         
         // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
         
         if minScale > maxScale {
-            
+            let min = minScale
             minScale = maxScale
+            maxScale = min
         }
         
+        print("minScale: \(minScale)")
+        print("maxScale: \(maxScale)")
         
-        self.maximumZoomScale = 2
+        self.maximumZoomScale = maxScale
         self.minimumZoomScale = minScale
         
     }
